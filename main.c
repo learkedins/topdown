@@ -19,4 +19,22 @@ int main(int argc, char **argv) {
   assert(window);
   SDL_GLContext Context = SDL_GL_CreateContext(window);
 
+  b32 running = 1;
+  b32 fullScreen = 0;
+
+  while(running) {
+    SDL_Event event;
+    while(SDL_PollEvent(&event)) {
+      if(event.type == SDL_QUIT) {
+        running = 0;
+      }
+    }
+
+    glViewport(0, 0, WIDTH, HEIGHT);
+    glClearColor(1.f, 0.f, 1.f, 0.f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    SDL_GL_SwapWindow(window);
+  }
+  return 0;
 }
