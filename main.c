@@ -1,38 +1,22 @@
-#include <SDL2/SDL.h>
 #include <stdio.h>
+#include <stdint.h>
+#include <assert.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_opengl.h>
+#include <GL/gl.h>
+
+typedef int32_t i32;
+typedef uint32_t u32;
+typedef int32_t b32;
 
 #define WIDTH 1200
 #define HEIGHT 800
 
 int main(int argc, char **argv) {
-  SDL_Window *window = NULL;
-  SDL_Event* event = NULL;
 
-  (void)argc; (void)argv;
+  u32 WindowFlags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE;
+  SDL_Window *window = SDL_CreateWindow("Example", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, WindowFlags);
+  assert(window);
+  SDL_GLContext Context = SDL_GL_CreateContext(window);
 
-  if(SDL_Init(SDL_INIT_VIDEO) != 0) {
-    fprintf(stderr, "Failed to initialize: %s\n", SDL_GetError()); 
-    return 1;
-  }
-
-  window = SDL_CreateWindow("RPG",
-                          SDL_WINDOWPOS_UNDEFINED,
-                          SDL_WINDOWPOS_UNDEFINED,
-                          WIDTH,
-                          HEIGHT,
-                          SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE );
-
-  if(window == NULL) {
-    fprintf(stderr, "SDL Window failed to initialize: %s\n", SDL_GetError());
-    return 1;
-  }
-
-  while(SDL_PollEvent(event)) {
-    if(event->type == SDL_QUIT){
-      SDL_DestroyWindow(window);
-      SDL_Quit();
-    }
-  }
-
-  return 0;
 }
