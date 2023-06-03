@@ -1,40 +1,47 @@
-#include <stdio.h>
-#include <stdint.h>
-#include <assert.h>
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_opengl.h>
-#include <GL/gl.h>
+#include <stdio.h>
 
-typedef int32_t i32;
-typedef uint32_t u32;
-typedef int32_t b32;
-
-#define WIDTH 1200
-#define HEIGHT 800
+const int SCREEN_WIDTH = 640;
+const int SCREEN_HEIGHT = 480;
 
 int main(int argc, char **argv) {
+  // Window
+  SDL_Window *window = NULL;
 
-  u32 WindowFlags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE;
-  SDL_Window *window = SDL_CreateWindow("Example", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, WindowFlags);
-  assert(window);
-  SDL_GLContext Context = SDL_GL_CreateContext(window);
+  // Event handler
+  SDL_Event e;
 
-  b32 running = 1;
-  b32 fullScreen = 0;
+  // Surface
+  SDL_Surface *surface = NULL;
 
-  while(running) {
-    SDL_Event event;
-    while(SDL_PollEvent(&event)) {
-      if(event.type == SDL_QUIT) {
-        running = 0;
+  // Initialize SDL
+  if(SDL_Init(SDL_INIT_VIDEO) < 0) {
+    printf("SDL could not initialize! SDL_ERROR: %s\n", SDL_GetError()); 
+  }
+
+  // Create the window
+  SDL_WindowFlags WindowFlags = SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE; 
+
+  window = SDL_CreateWindow( "Example", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, WindowFlags);
+  if(window == NULL) {
+    printf("Window could not be created %s\n", SDL_GetError());
+  }
+
+  surface = SDL_GetWindowSurface(window);
+
+  // Fill the surface
+  SDL_FillRect(surface, NULL, SDL_MapRGB( surface->format, 0xFF, 0x00, 0x00));
+
+  SDL_UpdateWindowSurface(window);
+
+  int running = 0;
+
+  while(running == 0) {
+    while(SDL_PollEvent(&e)) {
+      if(e.type == SDL_QUIT){
+        running = 1;
       }
     }
-
-    glViewport(0, 0, WIDTH, HEIGHT);
-    glClearColor(1.f, 0.f, 1.f, 0.f);
-    glClear(GL_COLOR_BUFFER_BIT);
-
-    SDL_GL_SwapWindow(window);
   }
-  return 0;
+
 }
