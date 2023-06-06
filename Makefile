@@ -1,6 +1,6 @@
 CC := clang
 
-CFLAGS := `sdl2-config --libs --cflags` -ggdb3 -O0 --std=c99 -Wall -lSDL2_image -lGL -lm
+CFLAGS := `sdl2-config --libs --cflags` -ggdb3 -O0 --std=c99 -Wall -lSDL2_image -lSDL2_ttf -lGL -lm
 HDRS :=
 
 # add source files here
