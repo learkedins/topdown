@@ -1,23 +1,33 @@
 #include "game.h"
 
-void toggleFullScreen(SDL_Window *window, int currentState){
+int fullScreen = 0;
 
-};
-
-void get_text_and_rect(SDL_Renderer *renderer, int x, int y, char *text,
-                       TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect) {
-  int text_width;
-  int text_height;
+void drawText(SDL_Renderer *renderer, int x, int y, char *text, TTF_Font *font,
+              SDL_Texture **texture, SDL_Rect *rect) {
+  int textWidth, textHeight;
   SDL_Surface *surface;
   SDL_Color textColor = {255, 255, 255, 0};
 
   surface = TTF_RenderText_Solid(font, text, textColor);
   *texture = SDL_CreateTextureFromSurface(renderer, surface);
-  text_width = surface->w;
-  text_height = surface->h;
+  textWidth = surface->w;
+  textHeight = surface->h;
   SDL_FreeSurface(surface);
   rect->x = x;
   rect->y = y;
-  rect->w = text_width;
-  rect->h = text_height;
+  rect->w = textWidth;
+  rect->h = textHeight;
 }
+
+void drawRectangle(SDL_Renderer *renderer, int x, int y, int w, int h,
+                   SDL_Rect *rect) {
+
+  int rectWidth, rectHeight;
+  rect->x = x;
+  rect->y = y;
+  rect->w = w;
+  rect->h = h;
+  SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+  SDL_RenderDrawRect(renderer, rect);
+  SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+};

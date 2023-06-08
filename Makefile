@@ -1,10 +1,10 @@
 CC := clang
 
 CFLAGS := `sdl2-config --libs --cflags` -ggdb3 -O0 --std=c99 -Wall -lSDL2_image -lSDL2_ttf -lGL -lm
-HDRS := main.h
+HDRS := game.h
 
 # add source files here
-SRCS := main.c utils.c
+SRCS := main.c utils.c game.c
 
 # generate names of object files
 OBJS := $(SRCS:.c=.o)
